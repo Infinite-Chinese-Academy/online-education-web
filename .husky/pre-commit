@@ -1,0 +1,5 @@
+# 1. lint-staged files
+# 2. format files with prettier
+# 3. add formatted files to staging
+# 4. git commit
+npx lint-staged
