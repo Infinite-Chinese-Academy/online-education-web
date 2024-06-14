@@ -1,5 +1,5 @@
-import { IResponse } from '../model/api'
-import { CountryResponse } from '../model/country'
+import { IResponse } from '@/app/model/api'
+import { CountryResponse } from '@/app/model/country'
 import { BaseApiService } from './baseApiService'
 
 class AreaService extends BaseApiService {

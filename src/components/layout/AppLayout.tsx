@@ -3,21 +3,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Layout, Menu, Row } from 'antd'
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  MessageOutlined,
-  DashboardOutlined,
-  DeploymentUnitOutlined,
-  ReadOutlined,
-  SolutionOutlined,
-} from '@ant-design/icons'
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import styled from 'styled-components'
 
 import UserIcon from './UserIcon'
+import { usePathname, useRouter } from 'next/navigation'
+import menuConfig, { MenuItem } from '@/app/model/menuConfig'
+import AppBreadCrumb from './AppBreadCrumb'
 
 const { Header, Sider, Content } = Layout
+const { SubMenu } = Menu
 
 const CollapsedMenuIcon = styled.span`
   font-size: 18px;
@@ -50,9 +46,53 @@ const StyledHeader = styled(Header)`
   z-index: 10;
 `
 
+const getDefaultSelectedKeys = (path: string) => {
+  let index = path.indexOf('[id]')
+  if (index !== -1) {
+    return path.slice(0, index - 1)
+  }
+  return path
+}
+
+const getDefaultOpenKeys = (path: string) => {
+  let currentPath = path
+  let index = path.indexOf('[id]')
+  // remove [id] params
+  if (index !== -1) {
+    currentPath = path.slice(0, index - 1)
+  }
+  // 如果包含三级路由
+  if ((currentPath.match(/\//g) || []).length > 2) {
+    // 去掉最后一级路由
+    currentPath = currentPath.slice(0, currentPath.lastIndexOf('/'))
+  }
+  return currentPath
+}
+
+function renderMenuItems(menus: MenuItem[]): JSX.Element[] {
+  return menus.map((item) => {
+    if (item.subMenu !== null) {
+      return (
+        <SubMenu key={item.key} icon={item.icon} title={item.label}>
+          {renderMenuItems(item.subMenu)}
+        </SubMenu>
+      )
+    } else {
+      return (
+        <Menu.Item key={item.key} icon={item.icon} title={item.label}>
+          <Link href={item.key}>{item.label}</Link>
+        </Menu.Item>
+      )
+    }
+  })
+}
+
 const AppLayout = (props: React.PropsWithChildren<any>) => {
   const { children } = props
   const [collapsed, setCollapsed] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
+  const menuItems = renderMenuItems(menuConfig.menus)
 
   return (
     <Layout style={{ height: '100vh' }}>
@@ -74,22 +114,13 @@ const AppLayout = (props: React.PropsWithChildren<any>) => {
             ></Image>
           )}
         </Logo>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<DashboardOutlined />}>
-            <Link href="/dashboard">Overview</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<SolutionOutlined />}>
-            <Link href="/dashboard/students">Student</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<DeploymentUnitOutlined />}>
-            Teacher
-          </Menu.Item>
-          <Menu.Item key="4" icon={<ReadOutlined />}>
-            Course
-          </Menu.Item>
-          <Menu.Item key="5" icon={<MessageOutlined />}>
-            Message
-          </Menu.Item>
+        <Menu
+          theme="light"
+          mode="inline"
+          defaultSelectedKeys={[getDefaultSelectedKeys(pathname)]}
+          defaultOpenKeys={[getDefaultOpenKeys(pathname)]}
+        >
+          {menuItems}
         </Menu>
       </Sider>
 
@@ -102,6 +133,7 @@ const AppLayout = (props: React.PropsWithChildren<any>) => {
             <UserIcon />
           </Row>
         </StyledHeader>
+        <AppBreadCrumb></AppBreadCrumb>
         <StyledContent>{children}</StyledContent>
       </Layout>
     </Layout>

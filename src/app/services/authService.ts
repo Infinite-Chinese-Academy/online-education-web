@@ -1,6 +1,6 @@
 import { AES } from 'crypto-js'
-import { IResponse } from '../model/api'
-import { LoginRequest, LoginResponse } from '../model/login'
+import { IResponse } from '@/app/model/api'
+import { LoginRequest, LoginResponse } from '@/app/model/login'
 import { BaseApiService } from './baseApiService'
 import storage from './storage'
 

@@ -86,3 +86,24 @@ npm run dev
   - Add form to `modal`.
   - Implement `add` and `update` API methods.
 - Implement delete student
+
+### student details page, side menu, breadcrumb
+
+- Menu and Submenu
+  - Each menuItem in menuConfig should include route, key, icon, title or label, and subMenu.
+    - Using route as key may cause duplicate key issues, which need resolution later.
+  - Rendering:
+    - Render subMenu if available; otherwise, render Menu.Item directly.
+    - Determine defaultSelectedKeys and defaultOpenKeys based on current route.
+      - For routes deeper than two levels:
+        - Use the last-level route as defaultSelectedKeys.
+        - Use the parent route of the last-level route as defaultOpenKeys.
+- Student Details Page
+  - Add routing to the specific student page based on ID.
+  - Retrieve student ID from route query.
+  - Fetch individual student data via API request.
+  - Integrate relevant components to render student details.
+- Breadcrumb
+  - Obtain current route's pathname.
+  - Match the corresponding breadcrumb array based on the pathname.
+  - Render breadcrumb component using the array's map method.

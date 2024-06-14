@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { IResponse } from '../model/api'
+import { IResponse } from '@/app/model/api'
 import storage from './storage'
 import { message } from 'antd'
 

@@ -2,7 +2,7 @@ import { Avatar, Dropdown, Menu } from 'antd'
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
 
 import { useRouter } from 'next/navigation'
-import authService from '../../app/services/authService'
+import authService from '@/app/services/authService'
 
 function UserIcon() {
   const router = useRouter()

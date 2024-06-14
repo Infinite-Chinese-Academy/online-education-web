@@ -1,14 +1,23 @@
 'use client'
 
 import styled from 'styled-components'
-import { Typography, Row, Col, message } from 'antd'
-import { Form, Input, Button, Radio, Checkbox, Space } from 'antd'
+import {
+  Typography,
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  Radio,
+  Checkbox,
+  Space,
+} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { AES } from 'crypto-js'
-import { LoginRequest } from '../model/login'
-import authService from '../services/authService'
+import { LoginRequest } from '@/app/model/login'
+import authService from '@/app/services/authService'
 
 const { Title } = Typography
 

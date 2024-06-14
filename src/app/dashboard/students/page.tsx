@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef, ChangeEvent } from 'react'
-import AppLayout from '../../../components/layout/AppLayout'
+import AppLayout from '@/components/layout/AppLayout'
 import {
   Space,
   Table,
@@ -12,26 +12,30 @@ import {
   Form,
   Select,
   Modal,
+  Popconfirm,
 } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { ColumnType } from 'antd/lib/table'
-import studentService from '../../../app/services/studentService'
+import studentService from '@/app/services/studentService'
 import {
   AddStudentRequest,
-  Course,
   Student,
   StudentType,
   UpdateStudentRequest,
-} from '../../../app/model/student'
+} from '@/app/model/student'
+import { Course } from '@/app/model/course'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-// import areaService from "../../../app/services/areaService";
-// import { Country } from "../../../app/model/country";
-import { getAreas } from '../../utils/getAreas'
 import Link from 'next/link'
 import { debounce } from 'lodash'
+import storage from '@/app/services/storage'
 
 const { Search } = Input
 const { Option } = Select
+
+enum StuType {
+  tester = 1,
+  developer,
+}
 
 const Students = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -40,10 +44,9 @@ const Students = () => {
   const [total, setTotal] = useState(0)
   const [students, setStudents] = useState<Student[]>([])
   const [paginator, setPaginator] = useState({ limit: 20, page: 1 })
-  // const [areas, setAreas] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false)
-
   const [form] = Form.useForm()
+  const [modifyStudentSuccessTimes, setModifyStudentSuccessTimes] = useState(0)
 
   const columns: ColumnType<Student>[] = [
     {
@@ -59,14 +62,16 @@ const Students = () => {
         a.name.charCodeAt(0) - b.name.charCodeAt(0),
       // eslint-disable-next-line react/display-name
       render: (text, record: Student, index) => (
-        <Link href="#">{record.name}</Link>
+        <Link href={`/dashboard/students/${record.id}`}>{record.name}</Link>
       ),
     },
     {
       title: 'Area',
       key: 'country',
       dataIndex: 'country',
-      filters: getAreas().map((item) => ({ text: item.en, value: item.en })),
+      filters: storage
+        .getAreas()
+        ?.map((item) => ({ text: item.en, value: item.en })),
       onFilter: (value: string | number | boolean, record: Student) =>
         record.country === value,
       width: '10%',
@@ -91,8 +96,7 @@ const Students = () => {
         { text: 'developer', value: 'developer' },
         { text: 'tester', value: 'tester' },
       ],
-      onFilter: (value: string | number | boolean, record: Student) =>
-        record.type.name === value,
+      onFilter: (value, record: Student) => record.type.name === value,
       render: (type: StudentType) => type?.name,
     },
     {
@@ -108,34 +112,18 @@ const Students = () => {
       render: (text, record, index) => (
         <Space size="middle">
           <a onClick={() => handleEditButtonClick(record)}>Edit</a>
-          <a>Delete</a>
+          <Popconfirm
+            title="Are you sure to delete?"
+            onConfirm={() => handleDeleteButtonClick(record)}
+            okText="Confirm"
+            cancelText="Cancel"
+          >
+            <a>Delete</a>
+          </Popconfirm>
         </Space>
       ),
     },
   ]
-
-  useEffect(() => {
-    // async function fetchAreas() {
-    //     const { data } = await areaService.getAreas();
-    //     if(!!data) {
-    //         setAreas(data.countries);
-    //     }
-    // }
-    async function fetchStudentRecords() {
-      setLoading(true)
-      const { data } = await studentService.getStudents(
-        paginator.limit,
-        paginator.page
-      )
-      if (!!data) {
-        setStudents(data.students)
-        setTotal(data.total)
-      }
-      setLoading(false)
-    }
-    // fetchAreas();
-    fetchStudentRecords()
-  }, [paginator])
 
   async function queryStudents(value: string) {
     setLoading(true)
@@ -162,34 +150,33 @@ const Students = () => {
   }
 
   const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        if (isEditingStudent) {
-          let updateStudentRequest: UpdateStudentRequest = {
-            id: editingStudent!.id,
-            name: values.name,
-            email: values.email,
-            country: values.area,
-            type: values.type === 'tester' ? 1 : 2,
-          }
-          studentService.updateStudent(updateStudentRequest)
-        } else {
-          let addStudentRequest: AddStudentRequest = {
-            name: values.name,
-            email: values.email,
-            country: values.area,
-            type: values.type === 'tester' ? 1 : 2,
-          }
-          studentService.addStudent(addStudentRequest)
+    form.validateFields().then((values) => {
+      if (isEditingStudent) {
+        let updateStudentRequest: UpdateStudentRequest = {
+          id: editingStudent!.id,
+          name: values.name,
+          email: values.email,
+          country: values.area,
+          type: values.studentType,
         }
-        form.resetFields()
-        setEditingStudent(null)
-        setIsModalVisible(false)
-      })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
-      })
+        studentService.updateStudent(updateStudentRequest).then(() => {
+          setModifyStudentSuccessTimes(modifyStudentSuccessTimes + 1)
+        })
+      } else {
+        let addStudentRequest: AddStudentRequest = {
+          name: values.name,
+          email: values.email,
+          country: values.area,
+          type: values.studentType,
+        }
+        studentService.addStudent(addStudentRequest).then(() => {
+          setModifyStudentSuccessTimes(modifyStudentSuccessTimes + 1)
+        })
+      }
+      form.resetFields()
+      setEditingStudent(null)
+      setIsModalVisible(false)
+    })
   }
 
   const handleEditButtonClick = (record: Student) => {
@@ -197,12 +184,34 @@ const Students = () => {
       name: record.name,
       email: record.email,
       area: record.country,
-      studentType: record.type.name,
+      studentType: record.type?.id,
     })
     setEditingStudent(record)
     setIsEditingStudent(true)
     setIsModalVisible(true)
   }
+
+  const handleDeleteButtonClick = (record: Student) => {
+    studentService
+      .deleteStudent(record.id)
+      .then(() => setModifyStudentSuccessTimes(modifyStudentSuccessTimes + 1))
+  }
+
+  useEffect(() => {
+    async function fetchStudentRecords() {
+      setLoading(true)
+      const { data } = await studentService.getStudents(
+        paginator.limit,
+        paginator.page
+      )
+      if (!!data) {
+        setStudents(data.students)
+        setTotal(data.total)
+      }
+      setLoading(false)
+    }
+    fetchStudentRecords()
+  }, [paginator, modifyStudentSuccessTimes])
 
   return (
     <AppLayout>
@@ -224,8 +233,6 @@ const Students = () => {
         <Col span={7} offset={13}>
           <Search
             placeholder="Search by name"
-            // 这里有bug 如果在一秒内触发了search事件，那么onChange事件必定会触发，也就是说会在一秒内查询两次学生数据
-            // 解决办法应该是只有一个触发条件，可以放在state里，让onSearch和onChange同时更改state，然后用另一个hook函数来监听，如有更改就查询
             onSearch={(value) => {
               queryStudents(value)
             }}
@@ -292,7 +299,7 @@ const Students = () => {
             rules={[{ required: true, message: "'area' is required" }]}
           >
             <Select>
-              {getAreas().map((item) => (
+              {storage.getAreas()?.map((item) => (
                 <Option value={item.en} key={item.id}>
                   {item.en}
                 </Option>
@@ -305,8 +312,8 @@ const Students = () => {
             rules={[{ required: true, message: "'student type' is required" }]}
           >
             <Select>
-              <Option value="tester">Tester</Option>
-              <Option value="developer">Developer</Option>
+              <Option value={StuType.tester}>Tester</Option>
+              <Option value={StuType.developer}>Developer</Option>
             </Select>
           </Form.Item>
         </Form>
