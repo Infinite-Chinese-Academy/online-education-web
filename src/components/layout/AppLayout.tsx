@@ -9,8 +9,14 @@ import styled from 'styled-components'
 
 import UserIcon from './UserIcon'
 import { usePathname, useRouter } from 'next/navigation'
-import menuConfig, { MenuItem } from '@/app/model/menuConfig'
+import {
+  getBreadcrumbs,
+  getDefaultKeys,
+  getMenusByRole,
+  MenuItem,
+} from '@/app/lib/constant/menuConfig'
 import AppBreadCrumb from './AppBreadCrumb'
+import { Role } from '@/app/model/role'
 
 const { Header, Sider, Content } = Layout
 const { SubMenu } = Menu
@@ -46,31 +52,8 @@ const StyledHeader = styled(Header)`
   z-index: 10;
 `
 
-const getDefaultSelectedKeys = (path: string) => {
-  let index = path.indexOf('[id]')
-  if (index !== -1) {
-    return path.slice(0, index - 1)
-  }
-  return path
-}
-
-const getDefaultOpenKeys = (path: string) => {
-  let currentPath = path
-  let index = path.indexOf('[id]')
-  // remove [id] params
-  if (index !== -1) {
-    currentPath = path.slice(0, index - 1)
-  }
-  // 如果包含三级路由
-  if ((currentPath.match(/\//g) || []).length > 2) {
-    // 去掉最后一级路由
-    currentPath = currentPath.slice(0, currentPath.lastIndexOf('/'))
-  }
-  return currentPath
-}
-
-function renderMenuItems(menus: MenuItem[]): JSX.Element[] {
-  return menus.map((item) => {
+function renderMenuItems(menus: MenuItem[] | undefined): JSX.Element[] {
+  return menus!.map((item) => {
     if (item.subMenu !== null) {
       return (
         <SubMenu key={item.key} icon={item.icon} title={item.label}>
@@ -80,19 +63,28 @@ function renderMenuItems(menus: MenuItem[]): JSX.Element[] {
     } else {
       return (
         <Menu.Item key={item.key} icon={item.icon} title={item.label}>
-          <Link href={item.key}>{item.label}</Link>
+          <Link href={item.path}>{item.label}</Link>
         </Menu.Item>
       )
     }
   })
 }
 
+function getUserRole(path: string): Role {
+  return path.split('/')[2] as Role
+}
+
 const AppLayout = (props: React.PropsWithChildren<any>) => {
   const { children } = props
   const [collapsed, setCollapsed] = useState(false)
-  const router = useRouter()
   const pathname = usePathname()
-  const menuItems = renderMenuItems(menuConfig.menus)
+  const generatedMenus = getMenusByRole(getUserRole(pathname))
+  const menuItems = renderMenuItems(generatedMenus)
+  const { defaultOpenKeys, defaultSelectedKeys } = getDefaultKeys(
+    generatedMenus,
+    pathname
+  )
+  const breadcrumbs = getBreadcrumbs(generatedMenus, pathname)
 
   return (
     <Layout style={{ height: '100vh' }}>
@@ -115,10 +107,10 @@ const AppLayout = (props: React.PropsWithChildren<any>) => {
           )}
         </Logo>
         <Menu
-          theme="light"
+          theme="dark"
           mode="inline"
-          defaultSelectedKeys={[getDefaultSelectedKeys(pathname)]}
-          defaultOpenKeys={[getDefaultOpenKeys(pathname)]}
+          defaultSelectedKeys={[defaultSelectedKeys]}
+          defaultOpenKeys={[defaultOpenKeys]}
         >
           {menuItems}
         </Menu>
@@ -133,7 +125,9 @@ const AppLayout = (props: React.PropsWithChildren<any>) => {
             <UserIcon />
           </Row>
         </StyledHeader>
-        <AppBreadCrumb></AppBreadCrumb>
+
+        <AppBreadCrumb breadcrumbs={breadcrumbs}></AppBreadCrumb>
+
         <StyledContent>{children}</StyledContent>
       </Layout>
     </Layout>

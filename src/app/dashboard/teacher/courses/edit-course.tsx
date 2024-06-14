@@ -3,12 +3,12 @@
 import { Typography } from 'antd'
 import AppLayout from '@/components/layout/AppLayout'
 
-const Teachers = () => {
+const EditCourse = () => {
   return (
     <AppLayout>
-      <Typography.Title>This is teachers page</Typography.Title>
+      <Typography.Title>This is teacher edit course page</Typography.Title>
     </AppLayout>
   )
 }
 
-export default Teachers
+export default EditCourse

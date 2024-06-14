@@ -3,14 +3,12 @@
 import { Typography } from 'antd'
 import AppLayout from '@/components/layout/AppLayout'
 
-const { Title } = Typography
-
-const Message = () => {
+const Teachers = () => {
   return (
     <AppLayout>
-      <Title>This is message page</Title>
+      <Typography.Title>This is manager teachers page</Typography.Title>
     </AppLayout>
   )
 }
 
-export default Message
+export default Teachers

@@ -11,16 +11,16 @@ npm run dev
 
 ## Functionality
 
-### Task 1 _login_
+### Login
 
-- ~~Retrieve data from the form~~
-  - ~~Encrypt the password~~
-  - ~~Call the API endpoint using a POST request to api/login~~
-    - ~~On success, save the user state information to localStorage~~
-      - ~~Redirect to /dashboard~~
-    - ~~On failure, notify the user that the username or password does not match~~
+- Retrieve data from the form
+  - Encrypt the password
+  - Call the API endpoint using a POST request to api/login
+    - On success, save the user state information to localStorage
+      - Redirect to /dashboard
+    - On failure, notify the user that the username or password does not match
 
-### Task 2 _dashboard interface_
+### Dashboard Interface
 
 - Layout
   - Sidebar
@@ -35,7 +35,7 @@ npm run dev
         - Logout
           - Invalidate the user login state by calling the api/logout endpoint
           - Redirect to /login
-- Student Data Display
+- Student data display
   - Add table
   - Call the API
 
@@ -61,7 +61,7 @@ npm run dev
   - logout method
 - StudentService
 
-### pagination, add, edit, search student functions
+### Pagination, Add, Edit, Search Student Functions
 
 - Implement pagination rendering
   - Add `paginator` and `total` state variables.
@@ -87,7 +87,7 @@ npm run dev
   - Implement `add` and `update` API methods.
 - Implement delete student
 
-### student details page, side menu, breadcrumb
+### Student Details Page, Side Menu, Breadcrumb
 
 - Menu and Submenu
   - Each menuItem in menuConfig should include route, key, icon, title or label, and subMenu.
@@ -107,3 +107,16 @@ npm run dev
   - Obtain current route's pathname.
   - Match the corresponding breadcrumb array based on the pathname.
   - Render breadcrumb component using the array's map method.
+
+### Breadcrumbs and Side Nav with Recursion
+
+- User logs in and obtains role.
+  - Redirect to corresponding route.
+  - Render side navigation based on role.
+    - Define keys for each menu item route.
+    - For `defaultSelectedKeys` and `defaultOpenKeys`, after obtaining the path:
+      - Remove `id` parameter.
+- Render breadcrumb based on path.
+  - Generate breadcrumb array.
+  - Add "detail" to array for detail pages.
+  - For non-detail pages, remove link from the last element.

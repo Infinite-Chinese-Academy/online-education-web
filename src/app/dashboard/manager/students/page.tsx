@@ -28,6 +28,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import Link from 'next/link'
 import { debounce } from 'lodash'
 import storage from '@/app/services/storage'
+import { usePathname } from 'next/navigation'
 
 const { Search } = Input
 const { Option } = Select
@@ -47,6 +48,7 @@ const Students = () => {
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
   const [modifyStudentSuccessTimes, setModifyStudentSuccessTimes] = useState(0)
+  const pathname = usePathname()
 
   const columns: ColumnType<Student>[] = [
     {
@@ -62,7 +64,7 @@ const Students = () => {
         a.name.charCodeAt(0) - b.name.charCodeAt(0),
       // eslint-disable-next-line react/display-name
       render: (text, record: Student, index) => (
-        <Link href={`/dashboard/students/${record.id}`}>{record.name}</Link>
+        <Link href={pathname + '/' + record.id}>{record.name}</Link>
       ),
     },
     {

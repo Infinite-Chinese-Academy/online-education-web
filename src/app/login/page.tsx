@@ -18,6 +18,7 @@ import axios from 'axios'
 import { AES } from 'crypto-js'
 import { LoginRequest } from '@/app/model/login'
 import authService from '@/app/services/authService'
+import storage from '@/app/services/storage'
 
 const { Title } = Typography
 
@@ -42,7 +43,7 @@ function Login() {
   const login = async (formValues: LoginRequest) => {
     const loginSuccess = await authService.login(formValues)
     if (loginSuccess) {
-      router.push('/dashboard')
+      router.push('/dashboard/' + storage.userInfo?.role)
     }
   }
 
