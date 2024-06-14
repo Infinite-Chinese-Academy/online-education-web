@@ -16,5 +16,8 @@ const config: Config = {
     },
   },
   plugins: [],
+  corePlugins: {
+    preflight: false, // do not allow tailwind-css to add its default styles
+  },
 }
 export default config
