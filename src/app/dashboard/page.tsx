@@ -1,8 +1,6 @@
-import AppLayout from '../../components/layout/AppLayout';
-
+import AppLayout from '../../components/layout/AppLayout'
 
 const Dashboard = () => {
-
   return (
     <AppLayout>
       <h1>This is dashboard index (overview) page</h1>
@@ -10,4 +8,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard;
+export default Dashboard

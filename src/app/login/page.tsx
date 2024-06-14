@@ -1,59 +1,41 @@
 'use client'
 
-import styled from 'styled-components';
-import { Typography, Row, Col, message } from 'antd';
-import { Form, Input, Button, Radio, Checkbox, Space } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { AES } from 'crypto-js';
+import styled from 'styled-components'
+import { Typography, Row, Col, message } from 'antd'
+import { Form, Input, Button, Radio, Checkbox, Space } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
+import { AES } from 'crypto-js'
+import { LoginRequest } from '../model/login'
+import userService from '../services/userService'
 
-const { Title } = Typography;
+const { Title } = Typography
 
 const StyledTitle = styled(Title)`
-    text-align: center;
-    margin:0.5em 0px;
-`;
+  text-align: center;
+  margin: 0.5em 0px;
+`
 
 const StyledButton = styled(Button)`
-    width: 100%;
-`;
+  width: 100%;
+`
 
 type LogInfo = {
-  email: string;
-  password: string;
-  role: string;
-  remember: boolean;
+  email: string
+  password: string
+  role: string
+  remember: boolean
 }
 
 function Login() {
-  const router = useRouter();
-  const onFinish = (formValues: LogInfo) => {
-    axios.post('https://cms.chtoma.com/api/login', {
-      email: formValues.email,
-      password: AES.encrypt(formValues.password, 'cms').toString(),
-      role: formValues.role
-    })
-      .then((response) => {
-        if (response.data.code === 201) {
-          let loginResponse = response.data.data;
-          if (loginResponse) {
-            localStorage.setItem("token", loginResponse.token);
-            localStorage.setItem("role", loginResponse.role);
-            localStorage.setItem("userId", loginResponse.userId);
-          }
-          router.push("/dashboard");
-        } else {
-          // should not be here
-          console.log(response.data);
-        }
-      }).catch((error) => {
-        if (error.response.status === 401) {
-          message.error("Please check your email or password");
-        }
-        //console.log(error.response.status);
-      })
-  };
+  const router = useRouter()
+  const login = async (formValues: LoginRequest) => {
+    const loginSuccess = await userService.login(formValues)
+    if (loginSuccess) {
+      router.push('/dashboard')
+    }
+  }
 
   return (
     <div>
@@ -63,11 +45,9 @@ function Login() {
           <Form
             name="login"
             initialValues={{ remember: true, role: 'student' }}
-            onFinish={onFinish}
+            onFinish={login}
           >
-            <Form.Item
-              name="role"
-            >
+            <Form.Item name="role">
               <Radio.Group>
                 <Radio.Button value="student">Student</Radio.Button>
                 <Radio.Button value="teacher">Teacher</Radio.Button>
@@ -79,31 +59,34 @@ function Login() {
               rules={[
                 {
                   required: true,
-                  message: '\'email\' is required'
+                  message: "'email' is required",
                 },
                 {
                   type: 'email',
-                  message: '\'email\' is not a valid email'
-                }
+                  message: "'email' is not a valid email",
+                },
               ]}
             >
-              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Please input email" />
+              <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Please input email"
+              />
             </Form.Item>
             <Form.Item
               name="password"
               rules={[
                 {
                   required: true,
-                  message: '\'password\' is required'
+                  message: "'password' is required",
                 },
                 {
                   min: 4,
-                  message: '\'password\' must be between 4 and 16 characters'
+                  message: "'password' must be between 4 and 16 characters",
                 },
                 {
                   max: 16,
-                  message: '\'password\' must be between 4 and 16 characters'
-                }
+                  message: "'password' must be between 4 and 16 characters",
+                },
               ]}
             >
               <Input
@@ -119,7 +102,11 @@ function Login() {
             </Form.Item>
 
             <Form.Item>
-              <StyledButton type="primary" htmlType="submit" className="login-form-button">
+              <StyledButton
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+              >
                 Sign in
               </StyledButton>
             </Form.Item>
