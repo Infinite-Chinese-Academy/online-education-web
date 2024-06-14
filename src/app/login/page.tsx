@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { AES } from 'crypto-js'
 import { LoginRequest } from '../model/login'
-import userService from '../services/userService'
+import authService from '../services/authService'
 
 const { Title } = Typography
 
@@ -31,7 +31,7 @@ type LogInfo = {
 function Login() {
   const router = useRouter()
   const login = async (formValues: LoginRequest) => {
-    const loginSuccess = await userService.login(formValues)
+    const loginSuccess = await authService.login(formValues)
     if (loginSuccess) {
       router.push('/dashboard')
     }

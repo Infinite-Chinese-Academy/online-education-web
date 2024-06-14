@@ -4,7 +4,7 @@ import { LoginRequest, LoginResponse } from '../model/login'
 import { BaseApiService } from './baseApiService'
 import storage from './storage'
 
-class UserService extends BaseApiService {
+class AuthService extends BaseApiService {
   async login({ password, ...rest }: LoginRequest): Promise<boolean> {
     const { data } = await this.post<IResponse<LoginResponse>>('login', {
       ...rest,
@@ -31,6 +31,6 @@ class UserService extends BaseApiService {
   }
 }
 
-const userService = new UserService()
+const authService = new AuthService()
 
-export default userService
+export default authService

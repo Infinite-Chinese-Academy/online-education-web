@@ -56,7 +56,33 @@ npm run dev
     - Add common get, post methods
   - Add errorHandler
 - Add user information storage service
-- UserService
+- AuthService
   - login method
   - logout method
 - StudentService
+
+### pagination, add, edit, search student functions
+
+- Implement pagination rendering
+  - Add `paginator` and `total` state variables.
+  - Include `pagination` parameter in the `table` component.
+  - Use `useEffect` to call `getStudents` method inside, fetching the students list and set `paginator` as the dependency for `useEffect`.
+- Implement join time description
+  - Introduce `date-fns`.
+  - Utilize `formatDistanceToNow` method.
+- Implement student name sorting (current page)
+  - Add a `sorter` function to the `name` element in the `columns` array, sorting based on the ASCII value of the first character of the name.
+- Implement area name filtering
+  - Add `filters` array and `onFilter` method to the `Area` element.
+- Implement student type filtering
+  - Add `filters` array and `onFilter` method to the `type` element.
+- Implement students name fuzzy search
+  - Integrate `Search` component.
+  - Add API method with `name` parameter.
+  - Implement `onSearch` function to directly query.
+  - Implement `onChange` function using `lodash debounce` for 1-second delay.
+- Implement add, edit student
+  - Incorporate `modal` component.
+  - Add form to `modal`.
+  - Implement `add` and `update` API methods.
+- Implement delete student
