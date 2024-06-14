@@ -11,7 +11,7 @@ import {
   MessageOutlined,
   CalendarOutlined,
 } from '@ant-design/icons'
-import { Role } from '../../model/role'
+import { Role } from '@/app/model/role'
 import { RoleEnum } from './roleEnum'
 
 export interface MenuItem {
@@ -49,19 +49,19 @@ const courses: MenuItem = {
   icon: <ReadOutlined />,
   subMenu: [
     {
-      label: 'All courses',
+      label: 'All Courses',
       path: '',
       icon: <ProjectOutlined />,
       subMenu: null,
     },
     {
-      label: 'Add courses',
+      label: 'Add Courses',
       path: '/add-course',
       icon: <FileAddOutlined />,
       subMenu: null,
     },
     {
-      label: 'Edit courses',
+      label: 'Edit Courses',
       path: '/edit-course',
       icon: <EditOutlined />,
       subMenu: null,
@@ -227,33 +227,27 @@ function getActiveMenuItems(
   menuItems: MenuItem[],
   path: string,
   record: MenuItem[]
-): [MenuItem | null, MenuItem[]] {
+): MenuItem[] {
   for (let menuItem of menuItems) {
     record.push(menuItem)
     if (menuItem.path === path) {
-      return [menuItem, record]
+      return record
     } else if (menuItem.subMenu !== null) {
-      let [resMenuItem, resRecord] = getActiveMenuItems(
-        menuItem.subMenu,
-        path,
-        record
-      )
-      if (resMenuItem !== null) {
-        return [resMenuItem, resRecord]
+      let resultRecord = getActiveMenuItems(menuItem.subMenu, path, record)
+      if (resultRecord.length > 0) {
+        return resultRecord
       }
-      record.pop()
-    } else {
-      record.pop()
     }
+    record.pop()
   }
-  return [null, []]
+  return []
 }
 
 export function getBreadcrumbs(
   generatedMenus: MenuItem[],
   path: string
 ): MenuItem[] {
-  let [activeMenuItem, activeMenuItems] = getActiveMenuItems(
+  let activeMenuItems = getActiveMenuItems(
     generatedMenus,
     omitDetailPath(path),
     []

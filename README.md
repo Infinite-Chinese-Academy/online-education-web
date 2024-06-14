@@ -120,3 +120,27 @@ npm run dev
   - Generate breadcrumb array.
   - Add "detail" to array for detail pages.
   - For non-detail pages, remove link from the last element.
+
+### Add Courses Detail List Page
+
+- Course Home Page
+  - Create course model.
+  - Write API call function.
+  - Call API to fetch course list.
+  - Render course list.
+- Abstract common `useListEffect` function for code reuse and to reduce redundancy.
+  - Types: request type, response type.
+  - Parameters: `apiRequest` function.
+  - Common function: `useEffect`.
+  - Return values include:
+    - `data` (students, courses, or others).
+    - `loading` state.
+    - `total` number of list items.
+    - Methods to set state (e.g., `setPaginator`, `setTotal`).
+- Course Details Page
+  - Add a course model according to the API
+  - Add `getCourseById` method
+  - Add a route to the course page with the specified ID
+  - Retrieve the course ID from the route query
+  - Make a request to fetch the data of a single course
+  - Add related components and render the data

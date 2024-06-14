@@ -24,7 +24,7 @@ import {
   UpdateStudentRequest,
 } from '@/app/model/student'
 import { Course } from '@/app/model/course'
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { formatDistanceToNow, parse } from 'date-fns'
 import Link from 'next/link'
 import { debounce } from 'lodash'
 import storage from '@/app/services/storage'
@@ -105,7 +105,11 @@ const Students = () => {
       title: 'Join time',
       key: 'createdAt',
       dataIndex: 'createdAt',
-      render: (createdAt: string) => formatDistanceToNow(new Date(createdAt)),
+      // fix bugs in mac safari browser
+      render: (createdAt: string) =>
+        formatDistanceToNow(
+          parse(createdAt, 'yyyy-MM-dd HH:mm:ss', new Date())
+        ),
     },
     {
       title: 'Action',
