@@ -10,3 +10,15 @@ export const programLanguageColors: string[] = [
   'red',
   'lime',
 ]
+
+export enum SkillDes {
+  'Know' = 1,
+  'Practiced',
+  'Comprehend',
+  'Expert',
+  'Master',
+}
+
+export const skillDes = new Array(5)
+  .fill(0)
+  .map((_, index) => SkillDes[index + 1])

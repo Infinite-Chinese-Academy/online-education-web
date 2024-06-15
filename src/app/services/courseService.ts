@@ -6,7 +6,10 @@ import {
   CourseRequest,
   CourseResponse,
   CourseType,
+  Schedule,
   ScheduleRequest,
+  UpdateCourseRequest,
+  UpdateCourseResponse,
 } from '@/app/model/course'
 import { BaseApiService } from './baseApiService'
 
@@ -16,6 +19,13 @@ class CourseService extends BaseApiService {
   }
   getCourseById(id: string): Promise<IResponse<CourseDetailResponse>> {
     return this.get('courses/detail', { id: id })
+  }
+  updateCourse(
+    req: UpdateCourseRequest
+  ): Promise<IResponse<UpdateCourseResponse>> {
+    return this.put<IResponse<UpdateCourseResponse>>('/courses', req).then(
+      this.showMessage(true)
+    )
   }
   getTypes(): Promise<IResponse<CourseType[]>> {
     return this.get('courses/type')
@@ -32,6 +42,11 @@ class CourseService extends BaseApiService {
     return this.put<IResponse<boolean>>('courses/schedule', req).then(
       this.showMessage(true)
     )
+  }
+  getScheduleById(scheduleId: number): Promise<IResponse<Schedule>> {
+    return this.get<IResponse<Schedule>>('courses/schedule', {
+      scheduleId: scheduleId,
+    })
   }
 }
 

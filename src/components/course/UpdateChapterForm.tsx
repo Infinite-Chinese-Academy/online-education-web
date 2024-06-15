@@ -13,7 +13,7 @@ import { useForm } from 'antd/lib/form/Form'
 import FormItem from 'antd/lib/form/FormItem'
 import { format } from 'date-fns'
 import moment, { Moment } from 'moment'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { weekDays } from '@/app/lib/constant/course'
 import { ScheduleRequest } from '@/app/model/course'
 import courseService from '@/app/services/courseService'
@@ -39,13 +39,15 @@ interface FieldNameWeekdayPair {
 interface updateChapterFormProps {
   courseId: number
   scheduleId: number
-  onSuccess: () => void
+  onSuccess?: () => void
+  isAdd: boolean
 }
 
 export default function UpdateChapterForm({
   courseId,
   scheduleId,
   onSuccess,
+  isAdd,
 }: updateChapterFormProps) {
   const [form] = useForm<ChapterFormValue>()
   const [currentSelectedWeekday, setCurrentSelectedWeekday] =
@@ -66,30 +68,27 @@ export default function UpdateChapterForm({
       ])
       setSelectedWeekdays([...selectedWeekdays, value])
     } else {
-      let temp = fieldNameWeekdayPairs
-      for (let i = 0; i < temp.length; i++) {
-        if (temp[i].fieldName === fieldName) {
-          let index = selectedWeekdays.indexOf(temp[i].value)
-          selectedWeekdays.splice(index, 1)
-          setSelectedWeekdays([...selectedWeekdays, value])
-          temp[i].value = value
-          setFieldNameWeekdayPairs(temp)
-          break
-        }
-      }
+      let tempFieldNameWeekdayPairs = fieldNameWeekdayPairs.filter(
+        (item) => item.fieldName !== fieldName
+      )
+      tempFieldNameWeekdayPairs.push({ fieldName: fieldName, value: value })
+      setFieldNameWeekdayPairs(tempFieldNameWeekdayPairs)
+      let tempSelectedWeekdays = tempFieldNameWeekdayPairs.map(
+        (item) => item.value
+      )
+      setSelectedWeekdays(tempSelectedWeekdays)
     }
   }
 
   const handleFieldItemRemove = (fieldName: number) => {
-    let index = fieldNameWeekdayPairs
-      .map((item) => item.fieldName)
-      .indexOf(fieldName)
-    if (index !== -1) {
-      fieldNameWeekdayPairs.splice(index, 1)
-      selectedWeekdays.splice(index, 1)
-      setFieldNameWeekdayPairs(fieldNameWeekdayPairs)
-      setSelectedWeekdays(selectedWeekdays)
-    }
+    let tempFieldNameWeekdayPairs = fieldNameWeekdayPairs.filter(
+      (item) => item.fieldName !== fieldName
+    )
+    setFieldNameWeekdayPairs(tempFieldNameWeekdayPairs)
+    let tempSelectedWeekdays = tempFieldNameWeekdayPairs.map(
+      (item) => item.value
+    )
+    setSelectedWeekdays(tempSelectedWeekdays)
   }
 
   const initialValues = {
@@ -105,7 +104,7 @@ export default function UpdateChapterForm({
 
     const { classTime: origin, chapters } = values
     const classTime = origin.map(
-      ({ weekday, time }) => `${weekday} ${moment(time).format('hh:mm:ss')}`
+      ({ weekday, time }) => `${weekday} ${moment(time).format('HH:mm:ss')}`
     )
     console.log(classTime)
     const req: ScheduleRequest = {
@@ -123,6 +122,33 @@ export default function UpdateChapterForm({
       }
     })
   }
+
+  useEffect(() => {
+    ;(async () => {
+      if (isAdd || !scheduleId) {
+        return
+      }
+      const { data } = await courseService.getScheduleById(scheduleId)
+      if (!!data) {
+        if (data.classTime === null) {
+          form.setFieldsValue({
+            chapters: [{ name: '', content: '' }],
+            classTime: [{ weekday: '', time: '' }],
+          })
+          return
+        }
+        const classTimes = data.classTime.map((item) => {
+          const [weekday, time] = item.split(' ')
+
+          return { weekday, time: moment(new Date(`2021-08-11 ${time}`)) }
+        })
+
+        form.setFieldsValue({ chapters: data.chapters, classTime: classTimes })
+        setSelectedWeekdays(classTimes.map((item) => item.weekday))
+      }
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdd, scheduleId])
 
   return (
     <Form

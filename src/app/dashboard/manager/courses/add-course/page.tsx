@@ -1,7 +1,7 @@
 'use client'
 
 import { Button, Result, Steps } from 'antd'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Course } from '@/app/model/course'
 import AddCourseForm from '@/components/course/AddCourseForm'
@@ -28,12 +28,17 @@ const AddCourse = () => {
   }
 
   const steps = [
-    <AddCourseForm key={1} onSuccess={onSuccess}></AddCourseForm>,
+    <AddCourseForm
+      key={1}
+      onSuccess={onSuccess}
+      isUpdate={false}
+    ></AddCourseForm>,
     <UpdateChapterForm
       key={2}
       courseId={courseId}
       scheduleId={scheduleId}
       onSuccess={moveToNext}
+      isAdd={true}
     ></UpdateChapterForm>,
     <Result
       key={3}

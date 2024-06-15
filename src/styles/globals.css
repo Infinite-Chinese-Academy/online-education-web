@@ -51,3 +51,7 @@ h1,
 h2 {
   font-family: 'BebasNeue';
 }
+
+.ant-input-group-lg .ant-select-single .ant-select-selector {
+  height: auto;
+}

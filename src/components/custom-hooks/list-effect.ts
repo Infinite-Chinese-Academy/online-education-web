@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { IResponse, ListResponse, Paginator } from '../../app/model/api'
+import { IResponse, ListResponse, Paginator } from '@/app/model/api'
 
 export function useListEffect<T extends ListResponse, U>(
   apiFn: (params: any) => Promise<IResponse<T>>,
@@ -11,6 +11,8 @@ export function useListEffect<T extends ListResponse, U>(
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [total, setTotal] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(true)
+  const [modifyDataSuccessTimes, setModifyDataSuccessTimes] = useState(0)
+
   useEffect(() => {
     setLoading(true)
     apiFn(paginator).then((res) => {
@@ -30,7 +32,7 @@ export function useListEffect<T extends ListResponse, U>(
     })
     setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paginator])
+  }, [paginator, modifyDataSuccessTimes])
 
   return {
     data,
@@ -38,9 +40,11 @@ export function useListEffect<T extends ListResponse, U>(
     paginator,
     total,
     loading,
+    modifyDataSuccessTimes,
     setPaginator,
     setData,
     setTotal,
     setLoading,
+    setModifyDataSuccessTimes,
   }
 }
