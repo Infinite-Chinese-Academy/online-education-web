@@ -173,7 +173,7 @@ const TeacherDetails = () => {
                 <StyledH3>Education</StyledH3>
 
                 <List>
-                  {teacherProfile.education?.map((item, index) => (
+                  {teacherProfile?.education?.map((item, index) => (
                     <List.Item extra={item.degree} key={index}>
                       <List.Item.Meta
                         title={item.startEnd.replace(' ', ' To ')}
@@ -185,7 +185,7 @@ const TeacherDetails = () => {
 
                 <StyledH3>Work Experience</StyledH3>
                 <List>
-                  {teacherProfile.workExperience?.map((item, index) => (
+                  {teacherProfile?.workExperience?.map((item, index) => (
                     <List.Item key={index}>
                       <List.Item.Meta
                         title={item.startEnd.replace(' ', ' To ')}

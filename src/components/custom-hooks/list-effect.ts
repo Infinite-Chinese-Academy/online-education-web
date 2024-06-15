@@ -10,7 +10,7 @@ export function useListEffect<T extends ListResponse, U>(
   const [paginator, setPaginator] = useState<Paginator>({ limit: 20, page: 1 })
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [total, setTotal] = useState<number>(0)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [modifyDataSuccessTimes, setModifyDataSuccessTimes] = useState(0)
 
   useEffect(() => {
@@ -29,8 +29,8 @@ export function useListEffect<T extends ListResponse, U>(
           ? !!source.length && source.length < newData!.total
           : newData!.total > source.length
       )
+      setLoading(false)
     })
-    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginator, modifyDataSuccessTimes])
 
