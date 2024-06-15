@@ -17,14 +17,14 @@ import TextArea from 'antd/lib/input/TextArea'
 import moment, { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DurationUnit } from '../../app/lib/constant/duration'
-import { CourseType } from '../../app/model/course'
-import { Teacher } from '../../app/model/teacher'
-import courseService from '../../app/services/courseService'
-import teacherService from '../../app/services/teacherService'
+import { DurationUnit } from '@/app/lib/constant/duration'
+import { AddCourseRequest, Course, CourseType } from '@/app/model/course'
+import { Teacher } from '@/app/model/teacher'
+import courseService from '@/app/services/courseService'
+import teacherService from '@/app/services/teacherService'
 import format from 'date-fns/format'
-import { UploadFile } from 'antd/lib/upload/interface'
-import { getBase64 } from '../../app/lib/util/image-helper'
+import { HttpRequestHeader, UploadFile } from 'antd/lib/upload/interface'
+import { getBase64 } from '@/app/lib/util/image-helper'
 import Modal from 'antd/lib/modal/Modal'
 
 const { Option } = Select
@@ -88,7 +88,15 @@ const DeleteIcon = styled(CloseCircleOutlined)`
   opacity: 0.5;
 `
 
-export default function AddCourseForm() {
+const customHeaders: HttpRequestHeader = {
+  'X-Requested-With': null,
+}
+
+interface AddCourseFormProps {
+  onSuccess?: (course: Course) => void
+}
+
+export default function AddCourseForm({ onSuccess }: AddCourseFormProps) {
   const [form] = useForm()
   const [teachers, setTeachers] = useState<Teacher[]>([])
   const [courseTypes, setCourseTypes] = useState<CourseType[]>([])
@@ -130,13 +138,19 @@ export default function AddCourseForm() {
     })
   }
 
-  const onFinish = (formValues: any) => {
-    let request = {
+  const onFinish = async (formValues: any) => {
+    let request: AddCourseRequest = {
       ...formValues,
-      startTime: format(formValues.startTime.toDate(), 'yyyy-MM-dd'),
+      startTime:
+        formValues.startTime !== null
+          ? format(formValues.startTime.toDate(), 'yyyy-MM-dd')
+          : '',
       durationUnit: durationUnit,
     }
-    console.log(request)
+    const { data } = await courseService.addCourse(request)
+    if (!!onSuccess && !!data) {
+      onSuccess(data)
+    }
   }
 
   useEffect(() => {
@@ -249,11 +263,11 @@ export default function AddCourseForm() {
             </Form.Item>
 
             <Form.Item label="Price" name="price" rules={[{ required: true }]}>
-              <InputNumber
+              <InputNumber<number>
                 formatter={(value) =>
                   `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                 }
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                parser={(value) => +value.replace(/\$\s?|(,*)/g, '')}
                 min={0}
                 style={{ width: '100%' }}
               ></InputNumber>
@@ -318,17 +332,18 @@ export default function AddCourseForm() {
                   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                   listType="picture-card"
                   fileList={fileList}
+                  headers={customHeaders}
                   onChange={(info) => {
                     const { status } = info.file
                     console.log(status)
                     if (status === 'done') {
-                      setFileList(info.fileList)
-                      form.setFieldsValue({ cover: info.file.url })
+                      form.setFieldsValue({ cover: info.file.response.url })
                     } else if (status === 'error') {
                       form.setFieldsValue({ cover: '' })
                     }
 
                     setIsUploading(status === 'uploading')
+                    setFileList(info.fileList)
                   }}
                   onPreview={handlePreview}
                 >

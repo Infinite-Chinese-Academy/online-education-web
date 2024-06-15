@@ -1,5 +1,5 @@
 import { Badge, Card, Col, Collapse, Row, Steps, Tag, Typography } from 'antd'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {
@@ -7,11 +7,11 @@ import {
   CourseStatusColor,
   CourseStatusText,
   weekDays,
-} from '../../../../app/lib/constant/course'
-import { CourseDetail, Schedule } from '../../../../app/model/course'
-import courseService from '../../../../app/services/courseService'
-import CourseOverview from '../../../../components/course/CourseOverview'
-import AppLayout from '../../../../components/layout/AppLayout'
+} from '@/app/lib/constant/course'
+import { CourseDetail, Schedule } from '@/app/model/course'
+import courseService from '@/app/services/courseService'
+import CourseOverview from '@/components/course/CourseOverview'
+import AppLayout from '@/components/layout/AppLayout'
 
 const StyledRow = styled(Row)`
   width: calc(100% + 48px);
@@ -111,12 +111,18 @@ const TD = styled.td`
 `
 
 const getChapterExtra = (source: Schedule, index: number) => {
-  const activeIndex = source.chapters.findIndex(
-    (item) => item.id === source.current
-  )
-  const status = index === activeIndex ? 1 : index < activeIndex ? 0 : 2
+  if (!!source) {
+    const activeIndex = source.chapters.findIndex(
+      (item) => item.id === source.current
+    )
+    const status = index === activeIndex ? 1 : index < activeIndex ? 0 : 2
 
-  return <Tag color={CourseStatusColor[status]}>{CourseStatusText[status]}</Tag>
+    return (
+      <Tag color={CourseStatusColor[status]}>{CourseStatusText[status]}</Tag>
+    )
+  } else {
+    return {}
+  }
 }
 
 interface ClassTime {
@@ -125,8 +131,8 @@ interface ClassTime {
 }
 
 const CourseDetailPage = () => {
-  const router = useRouter()
-  const { id } = router.query
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
   const [activeChapterIndex, setActiveChapterIndex] = useState(0)
   const [courseDetail, setCourseDetail] = useState<CourseDetail>()
   const [classTimeTableData, setClassTimeTableData] = useState<ClassTime[]>([])
@@ -136,21 +142,23 @@ const CourseDetailPage = () => {
       if (!!id && typeof id === 'string') {
         const { data } = await courseService.getCourseById(id)
         if (!!data) {
-          const newClassTimeTableData = weekDays.map((weekDay) => {
-            const target =
-              data.schedule.classTime.find((item) =>
-                item.toLocaleLowerCase().includes(weekDay.toLocaleLowerCase())
-              ) || ''
-            const time = target.split(' ')[1]
-            return { weekDay: weekDay, time: time }
-          })
-          setClassTimeTableData(newClassTimeTableData)
-          setActiveChapterIndex(
-            data.schedule.chapters.findIndex(
-              (item) => item.id === data.schedule.current
-            )
-          )
           setCourseDetail(data)
+          if (!!data.schedule) {
+            const newClassTimeTableData = weekDays.map((weekDay) => {
+              const target =
+                data.schedule.classTime.find((item) =>
+                  item.toLocaleLowerCase().includes(weekDay.toLocaleLowerCase())
+                ) || ''
+              const time = target.split(' ')[1]
+              return { weekDay: weekDay, time: time }
+            })
+            setClassTimeTableData(newClassTimeTableData)
+            setActiveChapterIndex(
+              data.schedule.chapters.findIndex(
+                (item) => item.id === data.schedule.current
+              )
+            )
+          }
         }
       }
     }
@@ -209,7 +217,7 @@ const CourseDetailPage = () => {
                 current={activeChapterIndex}
                 style={{ width: 'auto' }}
               >
-                {courseDetail?.schedule.chapters.map((item) => (
+                {courseDetail?.schedule?.chapters.map((item) => (
                   <Steps.Step title={item.name} key={item.id}></Steps.Step>
                 ))}
               </Steps>

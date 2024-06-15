@@ -1,9 +1,9 @@
 import { Card, Row, Col, CardProps } from 'antd'
 import { HeartFilled, UserOutlined } from '@ant-design/icons'
 import { Gutter } from 'antd/lib/grid/row'
-import { Course } from '../../app/model/course'
+import { Course } from '@/app/model/course'
 import styled from 'styled-components'
-import { DurationUnit } from '../../app/lib/constant/duration'
+import { DurationUnit } from '@/app/lib/constant/duration'
 
 const gutterValues: [Gutter, Gutter] = [6, 16]
 
