@@ -19,5 +19,6 @@ const config: Config = {
   corePlugins: {
     preflight: false, // do not allow tailwind-css to add its default styles
   },
+  // purge: ['./public/css/style.css'],
 }
 export default config

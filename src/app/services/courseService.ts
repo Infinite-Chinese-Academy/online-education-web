@@ -2,6 +2,7 @@ import { IResponse, Paginator } from '@/app/model/api'
 import {
   AddCourseRequest,
   AddCourseResponse,
+  ClassSchedule,
   CourseDetailResponse,
   CourseRequest,
   CourseResponse,
@@ -52,6 +53,11 @@ class CourseService extends BaseApiService {
   getScheduleById(scheduleId: number): Promise<IResponse<Schedule>> {
     return this.get<IResponse<Schedule>>('courses/schedule', {
       scheduleId: scheduleId,
+    })
+  }
+  getClassSchedule(userId: number): Promise<IResponse<ClassSchedule[]>> {
+    return this.get<IResponse<ClassSchedule[]>>('class/schedule', {
+      userId: userId,
     })
   }
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import { Avatar, Dropdown, Menu } from 'antd'
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
 

@@ -33,6 +33,7 @@ body {
 }
 
 @import '/node_modules/antd/dist/antd.css';
+@import '/public/css/style.css';
 
 @font-face {
   font-family: 'BebasNeue';
