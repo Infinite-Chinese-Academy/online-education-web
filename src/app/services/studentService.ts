@@ -10,13 +10,8 @@ import {
 import { BaseApiService } from './baseApiService'
 
 class StudentService extends BaseApiService {
-  getStudents(
-    limit: number,
-    page: number
-  ): Promise<IResponse<StudentResponse>> {
-    return this.get<IResponse<StudentResponse>>(
-      'students?limit=' + limit + '&page=' + page
-    )
+  getStudents(params: any): Promise<IResponse<StudentResponse>> {
+    return this.get<IResponse<StudentResponse>>('students', params)
   }
 
   getStudentsByName(

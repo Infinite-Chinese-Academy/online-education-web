@@ -1,5 +1,6 @@
 import { ListResponse } from './api'
 import { Course, StudentCourse } from './course'
+import { StudentCourseDetailStatistic } from './statistics'
 export interface StudentType {
   id: number
   name: string
@@ -46,4 +47,10 @@ export interface StudentProfile extends Student<StudentCourse> {
   memberStartAt: string
   memberEndAt: string
   description: string
+}
+
+export type StudentOwnCourse = StudentCourseDetailStatistic
+
+export interface StudentOwnCoursesResponse extends ListResponse {
+  courses: StudentOwnCourse[]
 }

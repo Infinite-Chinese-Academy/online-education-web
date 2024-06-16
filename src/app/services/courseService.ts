@@ -11,10 +11,16 @@ import {
   UpdateCourseRequest,
   UpdateCourseResponse,
 } from '@/app/model/course'
+import { StudentOwnCoursesResponse } from '@/app/model/student'
 import { BaseApiService } from './baseApiService'
 
 class CourseService extends BaseApiService {
   getCourses(params?: CourseRequest): Promise<IResponse<CourseResponse>> {
+    return this.get('courses', params)
+  }
+  getStudentOwnCourses(
+    params?: any
+  ): Promise<IResponse<StudentOwnCoursesResponse>> {
     return this.get('courses', params)
   }
   getCourseById(id: string): Promise<IResponse<CourseDetailResponse>> {

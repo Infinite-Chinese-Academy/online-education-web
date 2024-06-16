@@ -5,6 +5,7 @@ import {
   StatisticOverviewResponse,
   StatisticStudentResponse,
   StatisticTeacherResponse,
+  StudentStatisticResponse,
 } from '@/app/model/statistics'
 import { BaseApiService } from './baseApiService'
 
@@ -25,6 +26,11 @@ class StatisticService extends BaseApiService {
   }
   getCourseStatistics(): Promise<IResponse<StatisticCourseResponse>> {
     return this.get('statistics/course')
+  }
+  getStudentStatisticsByStudent(): Promise<
+    IResponse<StudentStatisticResponse>
+  > {
+    return this.get('statistics/student')
   }
 }
 

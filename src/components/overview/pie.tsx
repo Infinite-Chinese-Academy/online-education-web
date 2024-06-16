@@ -2,7 +2,7 @@
 
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Statistic } from '@/app/model/statistics'
 
 interface PieChartProps {
@@ -45,6 +45,19 @@ export default function PieChart({ data, title }: PieChartProps) {
     },
   })
 
+  const charRef = useRef(null)
+
+  useEffect(() => {
+    const { chart } = charRef.current
+    const timer = setTimeout(() => {
+      chart.reflow()
+    }, 30)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
+
   useEffect(() => {
     if (!data) {
       return
@@ -81,6 +94,7 @@ export default function PieChart({ data, title }: PieChartProps) {
     <HighchartsReact
       highcharts={Highcharts}
       options={options}
+      ref={charRef}
     ></HighchartsReact>
   )
 }

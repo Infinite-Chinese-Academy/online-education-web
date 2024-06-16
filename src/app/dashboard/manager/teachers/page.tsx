@@ -27,6 +27,7 @@ import {
   Skill,
   UpdateTeacherRequest,
   AddTeacherRequest,
+  TeacherRequest,
 } from '@/app/model/teacher'
 import storage from '@/app/services/storage'
 import teacherService from '@/app/services/teacherService'
@@ -61,7 +62,7 @@ const Teachers = () => {
     setData,
     setTotal,
     setModifyDataSuccessTimes,
-  } = useListEffect<TeachersResponse, Teacher>(
+  } = useListEffect<TeacherRequest, TeachersResponse, Teacher>(
     teacherService.getTeachers.bind(teacherService),
     'teachers',
     true

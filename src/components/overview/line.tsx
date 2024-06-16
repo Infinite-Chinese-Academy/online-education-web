@@ -2,7 +2,7 @@
 
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Statistic } from '@/app/model/statistics'
 
 const generateSeriesItemData = (data: Statistic[]) => {
@@ -61,6 +61,19 @@ export default function LineChart({ data }: LineChartProps) {
     },
   })
 
+  const charRef = useRef(null)
+
+  useEffect(() => {
+    const { chart } = charRef.current
+    const timer = setTimeout(() => {
+      chart.reflow()
+    }, 30)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
+
   useEffect(() => {
     const series = Object.entries(data).map((item) => {
       return {
@@ -73,5 +86,7 @@ export default function LineChart({ data }: LineChartProps) {
     })
   }, [data])
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />
+  return (
+    <HighchartsReact highcharts={Highcharts} options={options} ref={charRef} />
+  )
 }

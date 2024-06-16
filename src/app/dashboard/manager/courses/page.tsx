@@ -1,11 +1,11 @@
 'use client'
 
 import { List, Spin, BackTop, Button } from 'antd'
-import { Course, CourseResponse } from '@/app/model/course'
+import { Course, CourseRequest, CourseResponse } from '@/app/model/course'
 import courseService from '@/app/services/courseService'
 import AppLayout from '@/components/layout/AppLayout'
 
-import CourseOverview from '@/components/courses/CourseOverview'
+import CourseOverview from '@/components/course/CourseOverview'
 import { Indicator } from '@/components/common/styled'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useListEffect } from '@/components/custom-hooks/list-effect'
@@ -14,6 +14,7 @@ import storage from '@/app/services/storage'
 
 const AllCourses = () => {
   const { data, paginator, setPaginator, hasMore } = useListEffect<
+    CourseRequest,
     CourseResponse,
     Course
   >(courseService.getCourses.bind(courseService), 'courses', false)

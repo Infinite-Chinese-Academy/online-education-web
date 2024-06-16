@@ -17,6 +17,7 @@ import {
 } from '@/app/lib/constant/menuConfig'
 import AppBreadCrumb from './AppBreadCrumb'
 import { Role } from '@/app/model/role'
+import MessagePanel from './MessagePanel'
 
 const { Header, Sider, Content } = Layout
 const { SubMenu } = Menu
@@ -122,6 +123,7 @@ const AppLayout = (props: React.PropsWithChildren<any>) => {
             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </CollapsedMenuIcon>
           <Row align="middle">
+            <MessagePanel />
             <UserIcon />
           </Row>
         </StyledHeader>
