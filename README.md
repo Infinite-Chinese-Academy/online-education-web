@@ -144,3 +144,14 @@ npm run dev
   - Retrieve the course ID from the route query
   - Make a request to fetch the data of a single course
   - Add related components and render the data
+
+### Maps, Pie, Line, Bar charts
+
+- Based on the data from teacher skills
+  - Extract the keys from teacher skills to generate a key pair array and use these keys to generate the x-axis.
+- Iterate through the generated key pair array from skills and generate skill description arrays based on skill level
+  - If there is a skill description, add the amount to the corresponding array
+  - If there is no skill description, set the amount to 0 and add it to the corresponding array
+- Use these 5 skill description arrays as the series data stacked for teachers
+
+- The interest array from students serves as another set of data stacked for interests
