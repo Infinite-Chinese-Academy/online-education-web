@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import Head from 'next/head'
 import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 /* eslint-disable @next/next/no-img-element */
 export default function Events() {
@@ -18,7 +19,7 @@ export default function Events() {
         <script src="/js/main.js" key="main"></script>
       </Head>
 
-      <Header></Header>
+      <Header />
       <div className="divider"></div>
       <div className="content">
         <div className="container">
@@ -37,7 +38,7 @@ export default function Events() {
                   </h3>
                   <p className="info-line">
                     <span className="time">10:30 AM</span>
-                    <span className="place">Lincoln High School</span>
+                    <span className="place">Infinite Chinese Academy</span>
                   </p>
                   <p>
                     At vero eos et accusamus et iusto odio dignissimos ducimus
@@ -65,7 +66,7 @@ export default function Events() {
                   </h3>
                   <p className="info-line">
                     <span className="time">10:30 AM</span>
-                    <span className="place">Lincoln High School</span>
+                    <span className="place">Infinite Chinese Academy</span>
                   </p>
                   <p>
                     Sed ut perspiciatis unde omnis iste natus error sit
@@ -90,7 +91,7 @@ export default function Events() {
                   </h3>
                   <p className="info-line">
                     <span className="time">10:30 AM</span>
-                    <span className="place">Lincoln High School</span>
+                    <span className="place">Infinite Chinese Academy</span>
                   </p>
                   <p>
                     Sed ut perspiciatis unde omnis iste natus error sit
@@ -115,7 +116,7 @@ export default function Events() {
                   </h3>
                   <p className="info-line">
                     <span className="time">10:30 AM</span>
-                    <span className="place">Lincoln High School</span>
+                    <span className="place">Infinite Chinese Academy</span>
                   </p>
                   <p>
                     Sed ut perspiciatis unde omnis iste natus error sit
@@ -137,7 +138,7 @@ export default function Events() {
               <div className="head">
                 <a className="prev" href="#"></a>
                 <a className="next" href="#"></a>
-                <h4>April 2014</h4>
+                <h4>June 2024</h4>
               </div>
               <div className="table">
                 <table>
@@ -213,7 +214,7 @@ export default function Events() {
                               <p className="info-line">
                                 <span className="time">10:30 AM</span>
                                 <span className="place">
-                                  Lincoln High School
+                                  Infinite Chinese Academy
                                 </span>
                               </p>
                               <p>
@@ -241,7 +242,7 @@ export default function Events() {
                               <p className="info-line">
                                 <span className="time">10:30 AM</span>
                                 <span className="place">
-                                  Lincoln High School
+                                  Infinite Chinese Academy
                                 </span>
                               </p>
                               <p>
@@ -253,7 +254,7 @@ export default function Events() {
                               </p>
                             </div>
                           </div>
-                          16
+                          17
                         </div>
                       </td>
                       <td className="col-5">
@@ -289,7 +290,7 @@ export default function Events() {
                               <p className="info-line">
                                 <span className="time">10:30 AM</span>
                                 <span className="place">
-                                  Lincoln High School
+                                  Infinite Chinese Academy
                                 </span>
                               </p>
                               <p>
@@ -325,7 +326,7 @@ export default function Events() {
                               <p className="info-line">
                                 <span className="time">10:30 AM</span>
                                 <span className="place">
-                                  Lincoln High School
+                                  Infinite Chinese Academy
                                 </span>
                               </p>
                               <p>
@@ -407,99 +408,8 @@ export default function Events() {
           </aside>
         </div>
       </div>
-      <footer id="footer">
-        <div className="container">
-          <section>
-            <article className="col-1">
-              <h3>Contact</h3>
-              <ul>
-                <li className="address">
-                  <a href="#">
-                    151 W Adams St
-                    <br />
-                    Detroit, MI 48226
-                  </a>
-                </li>
-                <li className="mail">
-                  <a href="#">contact@harrisonuniversity.com</a>
-                </li>
-                <li className="phone last">
-                  <a href="#">(971) 536 845 924</a>
-                </li>
-              </ul>
-            </article>
-            <article className="col-2">
-              <h3>Forum topics</h3>
-              <ul>
-                <li>
-                  <a href="#">Omnis iste natus error sit</a>
-                </li>
-                <li>
-                  <a href="#">Nam libero tempore cum soluta</a>
-                </li>
-                <li>
-                  <a href="#">Totam rem aperiam eaque </a>
-                </li>
-                <li>
-                  <a href="#">Ipsa quae ab illo inventore veritatis </a>
-                </li>
-                <li className="last">
-                  <a href="#">Architecto beatae vitae dicta sunt </a>
-                </li>
-              </ul>
-            </article>
-            <article className="col-3">
-              <h3>Social media</h3>
-              <p>
-                Temporibus autem quibusdam et aut debitis aut rerum
-                necessitatibus saepe.
-              </p>
-              <ul>
-                <li className="facebook">
-                  <a href="#">Facebook</a>
-                </li>
-                <li className="google-plus">
-                  <a href="#">Google+</a>
-                </li>
-                <li className="twitter">
-                  <a href="#">Twitter</a>
-                </li>
-                <li className="pinterest">
-                  <a href="#">Pinterest</a>
-                </li>
-              </ul>
-            </article>
-            <article className="col-4">
-              <h3>Newsletter</h3>
-              <p>
-                Assumenda est omnis dolor repellendus temporibus autem
-                quibusdam.
-              </p>
-              <form action="#">
-                <input placeholder="Email address..." type="text" />
-                <button type="submit">Subscribe</button>
-              </form>
-              <ul>
-                <li>
-                  <a href="#"></a>
-                </li>
-              </ul>
-            </article>
-          </section>
-          <p className="copy">
-            Copyright 2014 Harrison High School. Designed by{' '}
-            <a
-              href="http://www.vandelaydesign.com/"
-              title="Designed by Vandelay Design"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Vandelay Design
-            </a>
-            . All rights reserved.
-          </p>
-        </div>
-      </footer>
+
+      <Footer />
 
       <div id="fancy">
         <h2>Request information</h2>

@@ -20,6 +20,7 @@ const SignIn = styled.li`
 
 export default function Header() {
   const pathname = usePathname()
+  const isCourses = pathname.match(/courses/i)
   const isEvents = pathname.match(/events/i)
   const isGallery = pathname.match(/gallery/i)
   const isLogin = pathname.match(/login/i)
@@ -72,10 +73,10 @@ export default function Header() {
                   style={{ fontFamily: 'BebasNeue' }}
                   selectedKeys={[pathname.slice(1)]}
                 >
-                  <Menu.Item key="events">
-                    <Link href="/events">Courses</Link>
+                  <Menu.Item key="courses">
+                    <Link href="/courses">Courses</Link>
                   </Menu.Item>
-                  <Menu.Item key="events2">
+                  <Menu.Item key="events">
                     <Link href="/events">Events</Link>
                   </Menu.Item>
                   <Menu.Item key="gallery">
@@ -95,10 +96,10 @@ export default function Header() {
 
             <nav id="menu">
               <ul>
-                <li className={isEvents ? 'current' : ''}>
-                  <Link href="/events">Courses</Link>
+                <li className={isCourses ? 'current' : ''}>
+                  <Link href="/courses">Courses</Link>
                 </li>
-                <li>
+                <li className={isEvents ? 'current' : ''}>
                   <Link href="/events">Events</Link>
                 </li>
               </ul>
