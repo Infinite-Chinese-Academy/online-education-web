@@ -8,7 +8,8 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 import styled from 'styled-components'
 import storage from '@/app/services/storage'
-// import '../../../public/css/style.css'
+import '@/styles/globals.css'
+import '../../../public/css/style.css'
 
 const SignIn = styled.li`
   @media screen and (min-width: 700px) {
@@ -40,13 +41,6 @@ export default function Header() {
         <script src="/js/jquery-1.11.1.min.js" key="jq"></script>
         <script src="/js/main.js" key="main"></script>
       </Head>
-
-      <div className="container">
-        <Link href="/">
-          <span id="logo" />
-        </Link>
-      </div>
-
       <Affix
         offsetTop={0}
         onChange={(fixed) => {

@@ -771,6 +771,11 @@ h1.single {
   height: 600px;
 }
 
+/* temporary solution for height overridden of navigation dots in slider */
+.slick-dots li {
+  height: 3px !important;
+}
+
 .slider .info {
   float: right;
   padding: 122px 15px 0 0;
@@ -1023,28 +1028,28 @@ a.btn.blue,
 }
 
 .current-date {
-  width: 70px !important;
-  float: left !important;
-  border-radius: 4px !important;
-  background-color: #008bc3 !important;
-  margin-right: 30px !important;
-  margin-top: 4px !important;
-  text-align: center !important;
-  font-family: 'BebasNeue' !important;
-  color: #fff !important;
-  font-size: 16px !important;
-  padding: 3px !important;
-  line-height: 20px !important;
+  width: 70px;
+  float: left;
+  border-radius: 4px;
+  background-color: #008bc3;
+  margin-right: 30px;
+  margin-top: 4px;
+  text-align: center;
+  font-family: 'BebasNeue';
+  color: #fff;
+  font-size: 16px;
+  padding: 3px;
+  line-height: 20px;
 }
 
 .current-date .date {
-  background-color: #fff !important;
-  color: #008bc3 !important;
-  font-size: 40px !important;
-  border-radius: 4px !important;
-  line-height: 49px !important;
-  margin-top: 3px !important;
-  font-weight: bold !important;
+  background-color: #fff;
+  color: #008bc3;
+  font-size: 40px;
+  border-radius: 4px;
+  line-height: 49px;
+  margin-top: 3px;
+  font-weight: bold;
 }
 
 .events .info {
