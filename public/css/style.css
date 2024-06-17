@@ -588,9 +588,10 @@ h1.single {
   padding-top: 4px;
 }
 
-#sidebar .calendar .table {
+/* #sidebar .calendar .table {
   margin: 0 -3px;
-}
+  width: 100%;
+} */
 
 #sidebar .calendar table {
   width: 100%;

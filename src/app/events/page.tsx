@@ -140,7 +140,7 @@ export default function Events() {
                 <a className="next" href="#"></a>
                 <h4>June 2024</h4>
               </div>
-              <div className="table">
+              <div>
                 <table>
                   <thead>
                     <tr>
