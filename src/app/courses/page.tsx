@@ -124,6 +124,75 @@ export default function Page() {
           </article>
         </div>
       </section>
+      <section className="posts">
+        <div className="container">
+          <article>
+            <div className="pic">
+              <img width="121" src="images/courses/1_4.png" alt="" />
+            </div>
+            <div className="info">
+              <h3>马克·吐温：美国的一面镜子</h3>
+              <p>
+                《马克·吐温：美国的一面镜子》为文本精读课程，本课程所用文本是由《时代周刊》和美国专业教育出版社
+                Teacher Created Materials合作推出的书籍 Stepping Into Mark
+                Twain’s World。本书共有3370个单词，相当于美国7年级水平（相当于
+                中国大学2年级水平）。
+                我们通常在读英语文本的时候，看到的可能是冷冰冰，干巴巴的句子。除了帮助大家理解文本外，还会教
+                大家更进一步地了解美国的社会文化。
+                本课程全文配有官方朗读版音频。
+              </p>
+            </div>
+          </article>
+          <article>
+            <div className="pic">
+              <img width="121" src="images/courses/1_7.png" alt="" />
+            </div>
+            <div className="info">
+              <h3>大品牌小故事II</h3>
+              <p>
+                《大品牌小故事》是友邻经典系列课程之一。第一季曾受到无数友邻同学的热捧。Q老师及制作团队匠心打磨三年，《大品牌小故事II》
+                终于与大家见面了。
+                和第一季一样，文本全部选自品牌英文官网和外媒专题报道。你会学到400+个地道的英文表达，能够用英文对品
+                牌故事如数家珍。
+                但与第一季有所不同的是，《大品牌小故事II》课程内容全面升级：
+                这一季，品牌更多样： 不止有时尚大牌，还
+                有酒店、航空、汽车多个领域的顶尖品牌。
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section className="posts">
+        <div className="container">
+          <article>
+            <div className="pic">
+              <img width="121" src="images/courses/1_8.png" alt="" />
+            </div>
+            <div className="info">
+              <h3>英伦文化知多少 | MAT 专栏</h3>
+              <p>
+                学了英语很多年，却依然没法和歪果仁朋友谈笑风生？口语考试在即，可是背模板似乎总拿不了高分？这一次，让我们告别英文尬
+                聊，一起领略各种有趣的英伦文化与科普小知识，丰富自己的谈资；这一次，让我们摆脱陈旧模板，一起掌握最精准的表达方式，
+                提高自己的表达；这一次，让资深雅思考官、正宗伦敦土著 Mat
+                为你保驾护航，实现口语新突破！
+              </p>
+            </div>
+          </article>
+          <article>
+            <div className="pic">
+              <img width="121" src="images/courses/1_10.png" alt="" />
+            </div>
+            <div className="info">
+              <h3>日常礼仪12讲</h3>
+              <p>
+                在当今快节奏的社会里，礼节这个概念似乎已经淡出人们的印象，仿佛成了贵族的专属概念。但其实，礼节就在我们身边，且在我们
+                的生活中扮演着重要的角色。小到帮后面的人扶门，大到国家领导人会见握手，都体现着礼节。但在日常生活中，我们经常会遇到一些
+                不知道该怎么处理的场景，稍不注意，就会很尴尬。我们想做个有礼的人，但是有时候的确不知道怎么做到，我们需要正确的指导。
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
 
       <Footer />
 
