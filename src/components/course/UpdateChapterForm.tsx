@@ -197,7 +197,9 @@ export default function UpdateChapterForm({
                             if (fields.length > 1) {
                               remove(field.name)
                             } else {
-                              message.warn('You must set at least one chapter.')
+                              message.warning(
+                                'You must set at least one chapter.'
+                              )
                             }
                           }}
                         ></MinusCircleOutlined>
@@ -276,7 +278,7 @@ export default function UpdateChapterForm({
                               handleFieldItemRemove(field.name)
                               remove(field.name)
                             } else {
-                              message.warn(
+                              message.warning(
                                 'You must set at least one class time.'
                               )
                             }

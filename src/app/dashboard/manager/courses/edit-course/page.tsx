@@ -62,7 +62,10 @@ const EditCourse = () => {
       <Row gutter={[6, 16]}>
         <Col span={12} style={{ marginLeft: '1.6%' }}>
           <Input.Group compact size="large" style={{ display: 'flex' }}>
-            <Select defaultValue="uid" onChange={(value) => setSearchBy(value)}>
+            <Select
+              defaultValue="uid"
+              onChange={(value: 'name' | 'type' | 'uid') => setSearchBy(value)}
+            >
               <Option value="uid">Code</Option>
               <Option value="name">Name</Option>
               <Option value="type">Category</Option>

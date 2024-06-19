@@ -136,7 +136,7 @@ const TeacherDetails = () => {
                 <Row gutter={[6, 16]}>
                   <Col span={24} key="Birthday">
                     <StyledBold>Birthday:</StyledBold>
-                    <span>{teacherProfile?.education}</span>
+                    <span>{teacherProfile?.birthday}</span>
                   </Col>
                   <Col span={24} key="Gender">
                     <StyledBold>Gender:</StyledBold>

@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { IResponse } from '@/app/model/api'
 import storage from './storage'
 import { message } from 'antd'
@@ -7,19 +7,26 @@ const axiosInstance = axios.create({
   baseURL: 'https://cms.chtoma.com/api/',
 })
 
-axiosInstance.interceptors.request.use((config) => {
-  // if it is not login request, add authorization token to headers
-  if (!config.url?.includes('login')) {
-    return {
-      ...config,
-      headers: {
-        ...config.headers,
-        Authorization: 'Bearer ' + storage?.token,
-      },
-    }
-  }
-  return config
-})
+axiosInstance.interceptors.request
+  .use
+  // (config: AxiosRequestConfig) => {
+  //   // if it is not login request, add authorization token to headers
+  //   if (!config.url?.includes('login')) {
+  //     return {
+  //       ...config,
+  //       headers: {
+  //         ...config.headers,
+  //         Authorization: 'Bearer ' + storage?.token,
+  //       },
+  //     }
+  //   }
+  //   return config
+  // },
+  // (error) => {
+  //   // Handle request error
+  //   return Promise.reject(error)
+  // }
+  ()
 
 export class BaseApiService {
   protected async get<T>(path: string, params?: any): Promise<T> {

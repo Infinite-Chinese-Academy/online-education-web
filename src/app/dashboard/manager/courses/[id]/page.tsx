@@ -123,7 +123,8 @@ const getChapterExtra = (source: Schedule, index: number) => {
       <Tag color={CourseStatusColor[status]}>{CourseStatusText[status]}</Tag>
     )
   } else {
-    return {}
+    // return {}
+    return null // Return null instead of an empty object
   }
 }
 

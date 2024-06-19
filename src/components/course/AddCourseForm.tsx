@@ -16,6 +16,7 @@ import ImgCrop from 'antd-img-crop'
 import { useForm } from 'antd/lib/form/Form'
 import TextArea from 'antd/lib/input/TextArea'
 import moment, { Moment } from 'moment'
+import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DurationUnit } from '@/app/lib/constant/duration'
@@ -23,7 +24,7 @@ import { AddCourseRequest, Course, CourseType } from '@/app/model/course'
 import { Teacher } from '@/app/model/teacher'
 import courseService from '@/app/services/courseService'
 import teacherService from '@/app/services/teacherService'
-import format from 'date-fns/format'
+// import format from 'date-fns/format'
 import { HttpRequestHeader, UploadFile } from 'antd/lib/upload/interface'
 import { getBase64 } from '@/app/lib/util/image-helper'
 import Modal from 'antd/lib/modal/Modal'
@@ -365,7 +366,8 @@ export default function AddCourseForm({
           </Col>
           <Col span={8} style={{ position: 'relative' }}>
             <UploadItem label="Cover" name="cover">
-              <ImgCrop rotate aspect={16 / 9}>
+              {/* <ImgCrop rotate aspect={16 / 9}> */}
+              <ImgCrop aspect={16 / 9}>
                 <Upload
                   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                   listType="picture-card"

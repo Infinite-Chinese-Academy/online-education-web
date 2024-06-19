@@ -55,7 +55,9 @@ const AddCourse = () => {
         <Button
           key="again"
           onClick={() => {
-            router.reload()
+            // router.reload()
+            // router.push(router.asPath);
+            window.location.reload()
           }}
         >
           Create Again

@@ -136,18 +136,18 @@ export default function HeatChart({ data, title }: HeatChartProps) {
         title: null,
         reversed: true,
       },
-      series: [
-        {
-          name: 'Lessons per weekday',
-          borderWidth: 1,
-          // @ts-ignore
-          data: sourceData,
-          dataLabels: {
-            enabled: true,
-            color: '#000000',
-          },
-        },
-      ],
+      // series: [
+      //   {
+      //     name: 'Lessons per weekday',
+      //     borderWidth: 1,
+      //     // @ts-ignore
+      //     data: sourceData,
+      //     dataLabels: {
+      //       enabled: true,
+      //       color: '#000000',
+      //     },
+      //   },
+      // ],
     })
   }, [data, title])
 

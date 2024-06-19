@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef, ChangeEvent } from 'react'
+import { useEffect, useState, useRef, ChangeEvent, Key } from 'react'
 import AppLayout from '@/components/layout/AppLayout'
 import {
   Space,
@@ -74,7 +74,7 @@ const Students = () => {
       filters: storage
         .getAreas()
         ?.map((item) => ({ text: item.en, value: item.en })),
-      onFilter: (value: string | number | boolean, record: Student) =>
+      onFilter: (value: string | number | boolean | Key, record: Student) =>
         record.country === value,
       width: '10%',
     },
@@ -207,8 +207,8 @@ const Students = () => {
     async function fetchStudentRecords() {
       setLoading(true)
       const { data } = await studentService.getStudents(
-        paginator.limit,
-        paginator.page
+        paginator.limit
+        // paginator.page
       )
       if (!!data) {
         setStudents(data.students)

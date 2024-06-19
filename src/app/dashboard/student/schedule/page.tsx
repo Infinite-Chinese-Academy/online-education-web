@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import courseService from '@/app/services/courseService'
 import storage from '@/app/services/storage'
 import { Moment } from 'moment'
+import { Dayjs } from 'dayjs'
 import { Chapter, ClassSchedule } from '@/app/model/course'
 import { cloneDeep, omit } from 'lodash'
 import {
@@ -111,7 +112,7 @@ const SchedulePage = () => {
   const [notifyInfo, setNotifyInfo] = useState<
     ClassSchedule & { class: ClassCalendar }
   >(null)
-  const dateCellRender = (current: Moment) => {
+  const dateCellRender = (current: Dayjs) => {
     const listData = data
       .map((course) => {
         const { calendar } = course
@@ -150,7 +151,7 @@ const SchedulePage = () => {
     )
   }
 
-  const monthCellRender = (current: Moment) => {
+  const monthCellRender = (current: Dayjs) => {
     const month = getMonth(current.toDate())
     const year = getYear(current.toDate())
     const result = data
